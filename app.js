@@ -401,7 +401,7 @@
   }
 
   // ---------- Passcode lock ----------
-  function getPasscode(){ return localStorage.getItem(PASSCODE_KEY) || "46334"; }
+  function getPasscode(){ return localStorage.getItem(PASSCODE_KEY) || "12345"; }
 
   let lockMode = "unlock";
   let lockBuffer = "";
