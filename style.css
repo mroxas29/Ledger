@@ -16,9 +16,9 @@
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
-html,body{margin:0; height:100%; background:var(--header-bg); overscroll-behavior:none;}
+html,body{margin:0; height:100%; background:var(--header-bg); overscroll-behavior:none; overflow:hidden;}
 body{ font-family:var(--sans); color:var(--text); background:var(--bg); }
-.page{ display:flex; flex-direction:column; min-height:100vh; }
+.page{ display:flex; flex-direction:column; height:100vh; height:100dvh; overflow:hidden; }
 svg{ display:block; }
 
 /* ---------- Header ---------- */
