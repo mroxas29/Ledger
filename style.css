@@ -60,6 +60,14 @@ header{
 .icon-btn svg{ width:18px; height:18px; }
 .icon-spacer{ width:34px; height:34px; flex-shrink:0; }
 
+/* daily spend */
+.daily-spend{ margin:16px 6px 0; background:rgba(255,255,255,.06); border-radius:12px; padding:12px 14px; }
+.ds-top{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px; }
+.ds-label{ font-size:11px; color:var(--header-text); opacity:.75; letter-spacing:.03em; text-transform:uppercase; }
+.ds-amount{ font-family:var(--serif); font-size:19px; font-weight:600; transition:color .3s ease; }
+.ds-track{ height:8px; background:rgba(255,255,255,.12); border-radius:4px; overflow:hidden; }
+.ds-bar{ height:100%; border-radius:4px; transition:width .3s ease, background-color .3s ease; }
+
 /* quick graph */
 .quick-graph{ margin:14px 6px 14px; }
 .qg-row{ display:flex; align-items:center; gap:10px; margin-bottom:7px; }
