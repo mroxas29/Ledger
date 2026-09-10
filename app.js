@@ -48,9 +48,33 @@
     const dateStr = d.toLocaleDateString(undefined, { month:"short", day:"numeric", year:"numeric" });
     let timeStr = "";
     if(t.createdAt){
-      timeStr = " &middot; " + new Date(t.createdAt).toLocaleTimeString(undefined, { hour:"numeric", minute:"2-digit" });
+      timeStr = " &middot; logged " + new Date(t.createdAt).toLocaleTimeString(undefined, { hour:"numeric", minute:"2-digit" });
     }
     return dateStr + timeStr;
+  }
+
+  const DAILY_SPEND_CAP = 500;
+  function lerpColor(hexA, hexB, t){
+    t = Math.min(Math.max(t, 0), 1);
+    const a = hexA.match(/\w\w/g).map(x=> parseInt(x,16));
+    const b = hexB.match(/\w\w/g).map(x=> parseInt(x,16));
+    const c = a.map((v,i)=> Math.round(v + (b[i]-v)*t));
+    return "#" + c.map(v=> v.toString(16).padStart(2,"0")).join("");
+  }
+  function dailySpendColor(amount){
+    return lerpColor("34C77B", "E5484D", amount / DAILY_SPEND_CAP);
+  }
+  function renderDailySpend(){
+    const today = todayISO();
+    const spend = transactions
+      .filter(t=> t.type === "expense" && t.date === today)
+      .reduce((s,t)=> s + t.amount, 0);
+    const color = dailySpendColor(spend);
+    const pct = Math.min((spend / DAILY_SPEND_CAP) * 100, 100);
+    document.getElementById("dailySpendAmount").textContent = fmt(spend);
+    document.getElementById("dailySpendAmount").style.color = color;
+    document.getElementById("dailySpendBar").style.width = pct + "%";
+    document.getElementById("dailySpendBar").style.background = color;
   }
 
   function transactionsForMonth(){
@@ -62,6 +86,7 @@
   }
 
   function render(){
+    renderDailySpend();
     document.getElementById("monthLabel").textContent = monthLabel(viewDate);
     const monthTx = transactionsForMonth();
     let income = 0, expense = 0;
@@ -401,7 +426,7 @@
   }
 
   // ---------- Passcode lock ----------
-  function getPasscode(){ return localStorage.getItem(PASSCODE_KEY) || "12345"; }
+  function getPasscode(){ return localStorage.getItem(PASSCODE_KEY) || "46334"; }
 
   let lockMode = "unlock";
   let lockBuffer = "";
