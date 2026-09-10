@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ledger</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ledger">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1B2A4A">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAIAAAB7GkOtAAALc0lEQVR4nO3cO27kVhqAUXqgXThS6lCZd2A4nESA1zKh12JAycS9g860BW1lgmpUa/SgWE+y7ncOHDhwu1kE+X/3sh6//PrbnxMAPf9a+wAAWIcAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBA1N3aB1Dx3//cH/cH//33y/7fX56fznQ4cEH3D49rHwKLCMDWGfrcnNcXrRhsmUdAwAW9PD9ZxGyWAAAXJwPbJADAlcjA1ggAcFUasB0CAFybBmyEAAAr8DhoCwQAWI0GrEsAgDVpwIoEACBKAICV2QSsRQCA9WnAKgQA2AQNuD4BAIgSAGArbAKuTAAAogQA2BCbgGsSAIAoAQC2xSbgagQAIEoAAKIEACBKAIDN8TbAdQgAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABE3a19AGzC/cPj2ofAFr08P619CFyQANQZ/czYXR4yMCqPgNJMf5ZwnYxKALrc1SznahmSAABECUCUBR2Hcs2MRwAAogQAIEoAAKIEACBKAKJ8tYdDuWbGIwAAUQLQZUHHcq6WIQlAmruaJVwno/JjcHW7e9t3fPiQ0T82AWCa3OeQ5BEQQJQA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">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAIAAAB7GkOtAAALc0lEQVR4nO3cO27kVhqAUXqgXThS6lCZd2A4nESA1zKh12JAycS9g860BW1lgmpUa/SgWE+y7ncOHDhwu1kE+X/3sh6//PrbnxMAPf9a+wAAWIcAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBA1N3aB1Dx3//cH/cH//33y/7fX56fznQ4cEH3D49rHwKLCMDWGfrcnNcXrRhsmUdAwAW9PD9ZxGyWAAAXJwPbJADAlcjA1ggAcFUasB0CAFybBmyEAAAr8DhoCwQAWI0GrEsAgDVpwIoEACBKAICV2QSsRQCA9WnAKgQA2AQNuD4BAIgSAGArbAKuTAAAogQA2BCbgGsSAIAoAQC2xSbgagQAIEoAAKIEACBKAIDN8TbAdQgAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABECQBAlAAARAkAQJQAAEQJAECUAABE3a19AGzC/cPj2ofAFr08P619CFyQANQZ/czYXR4yMCqPgNJMf5ZwnYxKALrc1SznahmSAABECUCUBR2Hcs2MRwAAogQAIEoAAKIEACBKAKJ8tYdDuWbGIwAAUQLQZUHHcq6WIQlAmruaJVwno/JjcHW7e9t3fPiQ0T82AWCa3OeQ5BEQQJQA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">
+<style>
+  :root{
+    --ink:#1B2A4A;
+    --ink-70:#1B2A4Ab3;
+    --paper:#FAF8F3;
+    --paper-dim:#F1EDE3;
+    --gold:#C9A66B;
+    --green:#2F6B52;
+    --rust:#A0402C;
+    --line:#DAD4C4;
+    --grey:#8A8578;
+    --serif: ui-serif, Georgia, "New York", "Times New Roman", serif;
+    --sans: -apple-system, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+  html,body{margin:0; height:100%; background:var(--ink); overscroll-behavior:none;}
+  body{
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--paper);
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    background:var(--ink);
+    color:var(--paper);
+    padding:calc(14px + var(--safe-top)) 20px 22px;
+    flex-shrink:0;
+  }
+  .month-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:18px;
+    margin-bottom:18px;
+  }
+  .month-row button{
+    background:none; border:none; color:var(--gold);
+    font-size:22px; line-height:1; padding:6px 10px; cursor:pointer;
+    font-family:var(--serif);
+  }
+  .month-label{
+    font-family:var(--serif);
+    font-size:15px;
+    letter-spacing:.04em;
+    color:var(--paper);
+    min-width:150px;
+    text-align:center;
+  }
+  .balance{
+    text-align:center;
+    font-family:var(--serif);
+    font-size:44px;
+    font-weight:500;
+    letter-spacing:-0.01em;
+  }
+  .balance.negative{ color:#E8A798; }
+  .sub-totals{
+    display:flex;
+    justify-content:center;
+    gap:28px;
+    margin-top:10px;
+    font-size:13px;
+  }
+  .sub-totals span{ display:block; }
+  .sub-totals .lbl{ color:#ffffff80; font-size:11px; letter-spacing:.03em; margin-bottom:2px;}
+  .sub-totals .val-in{ color:#8FCBAE; font-family:var(--serif); font-size:15px;}
+  .sub-totals .val-out{ color:#E8A798; font-family:var(--serif); font-size:15px;}
+
+  .icon-btn{
+    position:absolute;
+    top: calc(16px + var(--safe-top));
+    background:none; border:none; color:var(--gold);
+    font-size:19px; cursor:pointer; padding:6px;
+  }
+  #menuBtn{ right:12px; }
+
+  /* ---------- List ---------- */
+  main{
+    flex:1;
+    overflow-y:auto;
+    padding:18px 20px calc(110px + var(--safe-bottom));
+  }
+  .day-group{ margin-bottom:22px; }
+  .day-heading{
+    font-size:12px;
+    color:var(--grey);
+    letter-spacing:.02em;
+    margin:0 0 8px 2px;
+    display:flex;
+    justify-content:space-between;
+  }
+  .day-heading .day-total{ color:var(--ink-70); }
+  .entry{
+    display:flex;
+    align-items:center;
+    padding:11px 2px;
+    border-bottom:1px solid var(--line);
+    cursor:pointer;
+  }
+  .entry:last-child{ border-bottom:none; }
+  .entry-dot{
+    width:6px; height:6px; border-radius:50%;
+    margin-right:12px; flex-shrink:0;
+  }
+  .entry-dot.income{ background:var(--green); }
+  .entry-dot.expense{ background:var(--rust); }
+  .entry-main{ flex:1; min-width:0; }
+  .entry-cat{ font-size:15px; font-weight:600; }
+  .entry-note{ font-size:12.5px; color:var(--grey); margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .entry-amt{ font-family:var(--serif); font-size:16.5px; flex-shrink:0; padding-left:10px; }
+  .entry-amt.income{ color:var(--green); }
+  .entry-amt.expense{ color:var(--rust); }
+
+  .empty-state{
+    text-align:center;
+    color:var(--grey);
+    padding:60px 20px;
+    font-size:14px;
+    line-height:1.6;
+  }
+  .empty-state .big{
+    font-family:var(--serif);
+    font-size:19px;
+    color:var(--ink);
+    display:block;
+    margin-bottom:6px;
+  }
+
+  /* ---------- FAB ---------- */
+  #fab{
+    position:fixed;
+    right:22px;
+    bottom:calc(26px + var(--safe-bottom));
+    width:58px; height:58px;
+    border-radius:50%;
+    background:var(--ink);
+    color:var(--gold);
+    font-size:28px;
+    border:none;
+    box-shadow:0 6px 18px rgba(27,42,74,.35);
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  #fab:active{ transform:scale(.94); }
+
+  /* ---------- Sheet ---------- */
+  #overlay{
+    position:fixed; inset:0; background:rgba(27,42,74,.4);
+    opacity:0; pointer-events:none; transition:opacity .22s ease;
+    z-index:10;
+  }
+  #overlay.show{ opacity:1; pointer-events:auto; }
+  #sheet{
+    position:fixed; left:0; right:0; bottom:0;
+    background:var(--paper);
+    border-radius:20px 20px 0 0;
+    padding:20px 20px calc(24px + var(--safe-bottom));
+    transform:translateY(105%);
+    transition:transform .28s cubic-bezier(.32,.72,0,1);
+    z-index:11;
+    max-height:88vh;
+    overflow-y:auto;
+  }
+  #sheet.show{ transform:translateY(0); }
+  .sheet-handle{
+    width:36px; height:4px; background:var(--line);
+    border-radius:2px; margin:0 auto 16px;
+  }
+  .type-toggle{
+    display:flex; background:var(--paper-dim); border-radius:10px; padding:3px; margin-bottom:18px;
+  }
+  .type-toggle button{
+    flex:1; border:none; background:none; padding:10px; border-radius:8px;
+    font-size:14px; font-weight:600; color:var(--grey); cursor:pointer;
+    font-family:var(--sans);
+  }
+  .type-toggle button.active[data-type="expense"]{ background:var(--rust); color:var(--paper); }
+  .type-toggle button.active[data-type="income"]{ background:var(--green); color:var(--paper); }
+
+  .amount-row{
+    display:flex; align-items:baseline; justify-content:center; gap:4px;
+    margin-bottom:22px;
+  }
+  #currencySymbol{ font-family:var(--serif); font-size:28px; color:var(--grey); }
+  #amountInput{
+    font-family:var(--serif); font-size:42px; border:none; background:none;
+    width:200px; text-align:center; color:var(--ink); outline:none;
+  }
+  .field{ margin-bottom:16px; }
+  .field label{
+    display:block; font-size:11.5px; color:var(--grey); margin-bottom:6px; letter-spacing:.02em;
+  }
+  .field input, .field select{
+    width:100%; padding:12px 13px; border-radius:10px; border:1px solid var(--line);
+    background:#fff; font-size:15px; font-family:var(--sans); color:var(--ink);
+  }
+  .field input:focus, .field select:focus{ outline:2px solid var(--gold); outline-offset:-1px; }
+  .sheet-actions{ display:flex; gap:10px; margin-top:20px; }
+  .btn{
+    flex:1; padding:14px; border-radius:11px; border:none; font-size:15px;
+    font-weight:600; cursor:pointer; font-family:var(--sans);
+  }
+  .btn-save{ background:var(--ink); color:var(--paper); }
+  .btn-delete{ background:none; color:var(--rust); border:1px solid var(--rust); }
+  .btn:active{ opacity:.85; }
+
+  /* ---------- Menu ---------- */
+  #menuSheet .field{ margin-bottom:14px; }
+  .menu-action{
+    display:block; width:100%; text-align:left; background:none; border:none;
+    padding:13px 2px; font-size:15px; color:var(--ink); border-bottom:1px solid var(--line);
+    cursor:pointer; font-family:var(--sans);
+  }
+  .menu-action.danger{ color:var(--rust); }
+  .menu-action:last-child{ border-bottom:none; }
+
+  #toast{
+    position:fixed; left:50%; bottom:calc(100px + var(--safe-bottom));
+    transform:translate(-50%, 12px); background:var(--ink); color:var(--paper);
+    padding:10px 18px; border-radius:20px; font-size:13px; opacity:0;
+    transition:all .25s ease; pointer-events:none; z-index:20; white-space:nowrap;
+  }
+  #toast.show{ opacity:1; transform:translate(-50%, 0); }
+</style>
+</head>
+<body>
+
+<header>
+  <button id="menuBtn" class="icon-btn" aria-label="Menu">⋯</button>
+  <div class="month-row">
+    <button id="prevMonth" aria-label="Previous month">‹</button>
+    <div class="month-label" id="monthLabel">September 2026</div>
+    <button id="nextMonth" aria-label="Next month">›</button>
+  </div>
+  <div class="balance" id="balanceLabel">$0.00</div>
+  <div class="sub-totals">
+    <span><span class="lbl">INCOME</span><span class="val-in" id="incomeTotal">$0.00</span></span>
+    <span><span class="lbl">EXPENSES</span><span class="val-out" id="expenseTotal">$0.00</span></span>
+  </div>
+</header>
+
+<main id="list"></main>
+
+<button id="fab" aria-label="Add transaction">+</button>
+
+<div id="overlay"></div>
+
+<div id="sheet">
+  <div class="sheet-handle"></div>
+  <div class="type-toggle">
+    <button type="button" data-type="expense" class="active">Expense</button>
+    <button type="button" data-type="income">Income</button>
+  </div>
+  <div class="amount-row">
+    <span id="currencySymbol">$</span>
+    <input id="amountInput" type="number" inputmode="decimal" step="0.01" placeholder="0.00">
+  </div>
+  <div class="field">
+    <label for="categoryInput">Category</label>
+    <input id="categoryInput" list="categoryList" placeholder="e.g. Groceries" autocomplete="off">
+    <datalist id="categoryList"></datalist>
+  </div>
+  <div class="field">
+    <label for="noteInput">Note (optional)</label>
+    <input id="noteInput" placeholder="Add a note">
+  </div>
+  <div class="field">
+    <label for="dateInput">Date</label>
+    <input id="dateInput" type="date">
+  </div>
+  <div class="sheet-actions">
+    <button class="btn btn-delete" id="deleteBtn" style="display:none;">Delete</button>
+    <button class="btn btn-save" id="saveBtn">Save</button>
+  </div>
+</div>
+
+<div id="menuSheet" style="display:none;">
+  <div id="menuOverlay"></div>
+  <div id="menuPanel">
+    <div class="sheet-handle"></div>
+    <div class="field">
+      <label for="currencySelect">Currency</label>
+      <select id="currencySelect">
+        <option value="$">$ Dollar</option>
+        <option value="₱">₱ Peso</option>
+        <option value="€">€ Euro</option>
+        <option value="£">£ Pound</option>
+        <option value="¥">¥ Yen</option>
+        <option value="₹">₹ Rupee</option>
+      </select>
+    </div>
+    <button class="menu-action" id="exportBtn">Export month as CSV</button>
+    <button class="menu-action danger" id="clearBtn">Delete all data</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+(function(){
+  "use strict";
+  const STORAGE_KEY = "ledger_transactions_v1";
+  const CURRENCY_KEY = "ledger_currency_v1";
+  const DEFAULT_CATEGORIES = ["Food","Groceries","Transport","Bills","Rent","Shopping","Entertainment","Health","Salary","Freelance","Savings","Other"];
+
+  let transactions = load();
+  let currency = localStorage.getItem(CURRENCY_KEY) || "$";
+  let viewDate = new Date(); // month currently viewed
+  viewDate.setDate(1);
+  let editingId = null;
+
+  function load(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    }catch(e){ return []; }
+  }
+  function persist(){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
+  }
+  function uid(){
+    return Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+  }
+  function fmt(n){
+    const sign = n < 0 ? "-" : "";
+    return sign + currency + Math.abs(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  function isoDate(d){
+    const y = d.getFullYear(), m = String(d.getMonth()+1).padStart(2,"0"), day = String(d.getDate()).padStart(2,"0");
+    return `${y}-${m}-${day}`;
+  }
+  function todayISO(){ return isoDate(new Date()); }
+
+  function monthLabel(d){
+    return d.toLocaleDateString(undefined, { month:"long", year:"numeric" });
+  }
+
+  function dayHeadingLabel(iso){
+    const today = todayISO();
+    const y = new Date(); y.setDate(y.getDate()-1);
+    const yesterday = isoDate(y);
+    if(iso === today) return "Today";
+    if(iso === yesterday) return "Yesterday";
+    const d = new Date(iso + "T00:00:00");
+    return d.toLocaleDateString(undefined, { weekday:"short", month:"short", day:"numeric" });
+  }
+
+  function transactionsForMonth(){
+    const y = viewDate.getFullYear(), m = viewDate.getMonth();
+    return transactions.filter(t=>{
+      const d = new Date(t.date + "T00:00:00");
+      return d.getFullYear() === y && d.getMonth() === m;
+    });
+  }
+
+  function render(){
+    document.getElementById("monthLabel").textContent = monthLabel(viewDate);
+    const monthTx = transactionsForMonth();
+    let income = 0, expense = 0;
+    monthTx.forEach(t=> t.type === "income" ? income += t.amount : expense += t.amount);
+    const balance = income - expense;
+    const balEl = document.getElementById("balanceLabel");
+    balEl.textContent = fmt(balance);
+    balEl.classList.toggle("negative", balance < 0);
+    document.getElementById("incomeTotal").textContent = fmt(income);
+    document.getElementById("expenseTotal").textContent = fmt(expense);
+
+    // group by date desc
+    const byDate = {};
+    monthTx.forEach(t=>{ (byDate[t.date] = byDate[t.date] || []).push(t); });
+    const dates = Object.keys(byDate).sort().reverse();
+
+    const list = document.getElementById("list");
+    list.innerHTML = "";
+
+    if(dates.length === 0){
+      list.innerHTML = `<div class="empty-state"><span class="big">Nothing logged yet</span>Tap the + button to add your first income or expense for this month.</div>`;
+      return;
+    }
+
+    dates.forEach(dateKey=>{
+      const items = byDate[dateKey].sort((a,b)=> (b.createdAt||0) - (a.createdAt||0));
+      let dayNet = 0;
+      items.forEach(t=> dayNet += (t.type === "income" ? t.amount : -t.amount));
+
+      const group = document.createElement("div");
+      group.className = "day-group";
+
+      const heading = document.createElement("div");
+      heading.className = "day-heading";
+      heading.innerHTML = `<span>${dayHeadingLabel(dateKey)}</span><span class="day-total">${fmt(dayNet)}</span>`;
+      group.appendChild(heading);
+
+      items.forEach(t=>{
+        const row = document.createElement("div");
+        row.className = "entry";
+        row.innerHTML = `
+          <span class="entry-dot ${t.type}"></span>
+          <span class="entry-main">
+            <div class="entry-cat">${escapeHtml(t.category)}</div>
+            ${t.note ? `<div class="entry-note">${escapeHtml(t.note)}</div>` : ""}
+          </span>
+          <span class="entry-amt ${t.type}">${t.type === "expense" ? "-" : "+"}${fmt(t.amount).replace(currency,"").replace("-","")}</span>
+        `;
+        row.addEventListener("click", ()=> openSheet(t.id));
+        group.appendChild(row);
+      });
+
+      list.appendChild(group);
+    });
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, c=>({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[c]));
+  }
+
+  // ---------- Sheet (add/edit) ----------
+  const sheet = document.getElementById("sheet");
+  const overlay = document.getElementById("overlay");
+  const amountInput = document.getElementById("amountInput");
+  const categoryInput = document.getElementById("categoryInput");
+  const noteInput = document.getElementById("noteInput");
+  const dateInput = document.getElementById("dateInput");
+  const deleteBtn = document.getElementById("deleteBtn");
+  const currencySymbolEl = document.getElementById("currencySymbol");
+
+  function refreshCategoryList(){
+    const used = Array.from(new Set(transactions.map(t=>t.category)));
+    const all = Array.from(new Set([...DEFAULT_CATEGORIES, ...used]));
+    const dl = document.getElementById("categoryList");
+    dl.innerHTML = all.map(c=>`<option value="${escapeHtml(c)}">`).join("");
+  }
+
+  function setType(type){
+    document.querySelectorAll(".type-toggle button").forEach(b=>{
+      b.classList.toggle("active", b.dataset.type === type);
+    });
+    sheet.dataset.type = type;
+  }
+
+  function openSheet(id){
+    editingId = id || null;
+    currencySymbolEl.textContent = currency;
+    refreshCategoryList();
+    if(id){
+      const t = transactions.find(x=>x.id === id);
+      setType(t.type);
+      amountInput.value = t.amount;
+      categoryInput.value = t.category;
+      noteInput.value = t.note || "";
+      dateInput.value = t.date;
+      deleteBtn.style.display = "block";
+    } else {
+      setType("expense");
+      amountInput.value = "";
+      categoryInput.value = "";
+      noteInput.value = "";
+      dateInput.value = isoDate(viewDate.getMonth() === new Date().getMonth() && viewDate.getFullYear() === new Date().getFullYear() ? new Date() : viewDate);
+      deleteBtn.style.display = "none";
+    }
+    overlay.classList.add("show");
+    sheet.classList.add("show");
+    setTimeout(()=> amountInput.focus(), 250);
+  }
+
+  function closeSheet(){
+    overlay.classList.remove("show");
+    sheet.classList.remove("show");
+    editingId = null;
+  }
+
+  document.querySelectorAll(".type-toggle button").forEach(b=>{
+    b.addEventListener("click", ()=> setType(b.dataset.type));
+  });
+
+  document.getElementById("fab").addEventListener("click", ()=> openSheet(null));
+  overlay.addEventListener("click", ()=>{ closeSheet(); closeMenu(); });
+
+  document.getElementById("saveBtn").addEventListener("click", ()=>{
+    const amount = parseFloat(amountInput.value);
+    const category = categoryInput.value.trim();
+    const date = dateInput.value;
+    const type = sheet.dataset.type || "expense";
+    if(!amount || amount <= 0){ toast("Enter an amount"); amountInput.focus(); return; }
+    if(!category){ toast("Enter a category"); categoryInput.focus(); return; }
+    if(!date){ toast("Pick a date"); return; }
+
+    if(editingId){
+      const t = transactions.find(x=>x.id === editingId);
+      Object.assign(t, { amount, category, date, type, note: noteInput.value.trim() });
+    } else {
+      transactions.push({
+        id: uid(), amount, category, date, type,
+        note: noteInput.value.trim(), createdAt: Date.now()
+      });
+    }
+    persist();
+    viewDate = new Date(date + "T00:00:00"); viewDate.setDate(1);
+    render();
+    closeSheet();
+    toast("Saved");
+  });
+
+  deleteBtn.addEventListener("click", ()=>{
+    if(!editingId) return;
+    transactions = transactions.filter(t=>t.id !== editingId);
+    persist();
+    render();
+    closeSheet();
+    toast("Deleted");
+  });
+
+  // ---------- Month navigation ----------
+  document.getElementById("prevMonth").addEventListener("click", ()=>{
+    viewDate.setMonth(viewDate.getMonth()-1);
+    render();
+  });
+  document.getElementById("nextMonth").addEventListener("click", ()=>{
+    viewDate.setMonth(viewDate.getMonth()+1);
+    render();
+  });
+
+  // ---------- Menu ----------
+  const menuSheet = document.getElementById("menuSheet");
+  const menuPanel = document.getElementById("menuPanel");
+  const menuOverlay = document.getElementById("menuOverlay");
+  menuPanel.className = "";
+  menuPanel.style.cssText = "position:fixed;left:0;right:0;bottom:0;background:var(--paper);border-radius:20px 20px 0 0;padding:20px 20px calc(24px + var(--safe-bottom));transform:translateY(105%);transition:transform .28s cubic-bezier(.32,.72,0,1);z-index:11;";
+  menuOverlay.style.cssText = "position:fixed;inset:0;background:rgba(27,42,74,.4);opacity:0;pointer-events:none;transition:opacity .22s ease;z-index:10;";
+  menuSheet.style.display = "block";
+
+  document.getElementById("currencySelect").value = currency;
+
+  function openMenu(){
+    menuOverlay.style.opacity = "1"; menuOverlay.style.pointerEvents = "auto";
+    menuPanel.style.transform = "translateY(0)";
+  }
+  function closeMenu(){
+    menuOverlay.style.opacity = "0"; menuOverlay.style.pointerEvents = "none";
+    menuPanel.style.transform = "translateY(105%)";
+  }
+  document.getElementById("menuBtn").addEventListener("click", openMenu);
+  menuOverlay.addEventListener("click", closeMenu);
+
+  document.getElementById("currencySelect").addEventListener("change", (e)=>{
+    currency = e.target.value;
+    localStorage.setItem(CURRENCY_KEY, currency);
+    render();
+  });
+
+  document.getElementById("exportBtn").addEventListener("click", ()=>{
+    const monthTx = transactionsForMonth().sort((a,b)=> a.date.localeCompare(b.date));
+    if(monthTx.length === 0){ toast("Nothing to export"); return; }
+    let csv = "Date,Type,Category,Note,Amount\n";
+    monthTx.forEach(t=>{
+      const row = [t.date, t.type, t.category, (t.note||"").replace(/,/g," "), t.amount.toFixed(2)];
+      csv += row.join(",") + "\n";
+    });
+    const blob = new Blob([csv], { type:"text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `ledger-${viewDate.getFullYear()}-${String(viewDate.getMonth()+1).padStart(2,"0")}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    closeMenu();
+  });
+
+  document.getElementById("clearBtn").addEventListener("click", ()=>{
+    if(confirm("Delete all logged transactions? This can't be undone.")){
+      transactions = [];
+      persist();
+      render();
+      closeMenu();
+      toast("All data cleared");
+    }
+  });
+
+  // ---------- Toast ----------
+  let toastTimer;
+  function toast(msg){
+    const el = document.getElementById("toast");
+    el.textContent = msg;
+    el.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=> el.classList.remove("show"), 1600);
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
