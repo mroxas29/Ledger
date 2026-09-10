@@ -48,7 +48,7 @@
     const dateStr = d.toLocaleDateString(undefined, { month:"short", day:"numeric", year:"numeric" });
     let timeStr = "";
     if(t.createdAt){
-      timeStr = " &middot; logged " + new Date(t.createdAt).toLocaleTimeString(undefined, { hour:"numeric", minute:"2-digit" });
+      timeStr = " &middot; " + new Date(t.createdAt).toLocaleTimeString(undefined, { hour:"numeric", minute:"2-digit" });
     }
     return dateStr + timeStr;
   }
