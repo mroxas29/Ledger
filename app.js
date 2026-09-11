@@ -48,12 +48,16 @@
     const dateStr = d.toLocaleDateString(undefined, { month:"short", day:"numeric", year:"numeric" });
     let timeStr = "";
     if(t.createdAt){
-      timeStr = " &middot; " + new Date(t.createdAt).toLocaleTimeString(undefined, { hour:"numeric", minute:"2-digit" });
+      timeStr = " &middot; logged " + new Date(t.createdAt).toLocaleTimeString(undefined, { hour:"numeric", minute:"2-digit" });
     }
     return dateStr + timeStr;
   }
 
-  const DAILY_SPEND_CAP = 500;
+  const DAILY_CAP_KEY = "ledger_daily_cap_v1";
+  function getDailyCap(){
+    const stored = parseFloat(localStorage.getItem(DAILY_CAP_KEY));
+    return (stored && stored > 0) ? stored : 500;
+  }
   function lerpColor(hexA, hexB, t){
     t = Math.min(Math.max(t, 0), 1);
     const a = hexA.match(/\w\w/g).map(x=> parseInt(x,16));
@@ -62,7 +66,7 @@
     return "#" + c.map(v=> v.toString(16).padStart(2,"0")).join("");
   }
   function dailySpendColor(amount){
-    return lerpColor("34C77B", "E5484D", amount / DAILY_SPEND_CAP);
+    return lerpColor("34C77B", "E5484D", amount / getDailyCap());
   }
   function renderDailySpend(){
     const today = todayISO();
@@ -70,7 +74,7 @@
       .filter(t=> t.type === "expense" && t.date === today)
       .reduce((s,t)=> s + t.amount, 0);
     const color = dailySpendColor(spend);
-    const pct = Math.min((spend / DAILY_SPEND_CAP) * 100, 100);
+    const pct = Math.min((spend / getDailyCap()) * 100, 100);
     document.getElementById("dailySpendAmount").textContent = fmt(spend);
     document.getElementById("dailySpendAmount").style.color = color;
     document.getElementById("dailySpendBar").style.width = pct + "%";
@@ -278,6 +282,7 @@
   menuOverlay.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .22s ease;z-index:10;";
   menuSheet.style.display = "block";
   document.getElementById("currencySelect").value = currency;
+  document.getElementById("dailyCapInput").value = getDailyCap();
 
   function openMenu(){ menuOverlay.style.opacity = "1"; menuOverlay.style.pointerEvents = "auto"; menuPanel.style.transform = "translateY(0)"; }
   function closeMenu(){ menuOverlay.style.opacity = "0"; menuOverlay.style.pointerEvents = "none"; menuPanel.style.transform = "translateY(105%)"; }
@@ -288,6 +293,18 @@
     currency = e.target.value;
     localStorage.setItem(CURRENCY_KEY, currency);
     render();
+  });
+
+  document.getElementById("dailyCapInput").addEventListener("change", (e)=>{
+    const val = parseFloat(e.target.value);
+    if(!val || val <= 0){
+      e.target.value = getDailyCap();
+      toast("Enter a cap above 0");
+      return;
+    }
+    localStorage.setItem(DAILY_CAP_KEY, val);
+    renderDailySpend();
+    toast("Daily cap updated");
   });
 
   document.getElementById("exportBtn").addEventListener("click", ()=>{
