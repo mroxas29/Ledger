@@ -295,16 +295,25 @@
     render();
   });
 
-  document.getElementById("dailyCapInput").addEventListener("change", (e)=>{
+  document.getElementById("dailyCapInput").addEventListener("input", (e)=>{
+    let v = e.target.value.replace(/[^\d.]/g, "");
+    const firstDot = v.indexOf(".");
+    if(firstDot !== -1){ v = v.slice(0,firstDot+1) + v.slice(firstDot+1).replace(/\./g,""); }
+    e.target.value = v;
+    const val = parseFloat(v);
+    if(val && val > 0){
+      localStorage.setItem(DAILY_CAP_KEY, val);
+      renderDailySpend();
+    }
+  });
+  document.getElementById("dailyCapInput").addEventListener("blur", (e)=>{
     const val = parseFloat(e.target.value);
     if(!val || val <= 0){
       e.target.value = getDailyCap();
       toast("Enter a cap above 0");
-      return;
+    } else {
+      toast("Daily cap updated");
     }
-    localStorage.setItem(DAILY_CAP_KEY, val);
-    renderDailySpend();
-    toast("Daily cap updated");
   });
 
   document.getElementById("exportBtn").addEventListener("click", ()=>{
