@@ -48,7 +48,7 @@
     const dateStr = d.toLocaleDateString(undefined, { month:"short", day:"numeric", year:"numeric" });
     let timeStr = "";
     if(t.createdAt){
-      timeStr = " &middot; " + new Date(t.createdAt).toLocaleTimeString(undefined, { hour:"numeric", minute:"2-digit" });
+      timeStr = " &middot; logged " + new Date(t.createdAt).toLocaleTimeString(undefined, { hour:"numeric", minute:"2-digit" });
     }
     return dateStr + timeStr;
   }
@@ -228,10 +228,12 @@
     overlay.classList.add("show");
     sheet.classList.add("show");
     setTimeout(()=> amountInput.focus(), 250);
+    setTimeout(()=>{ sheet.style.transform = "none"; }, 320);
   }
   function closeSheet(){
     overlay.classList.remove("show");
     sheet.classList.remove("show");
+    sheet.style.transform = "";
     editingId = null;
   }
 
@@ -284,8 +286,15 @@
   document.getElementById("currencySelect").value = currency;
   document.getElementById("dailyCapInput").value = getDailyCap();
 
-  function openMenu(){ menuOverlay.style.opacity = "1"; menuOverlay.style.pointerEvents = "auto"; menuPanel.style.transform = "translateY(0)"; }
-  function closeMenu(){ menuOverlay.style.opacity = "0"; menuOverlay.style.pointerEvents = "none"; menuPanel.style.transform = "translateY(105%)"; }
+  function openMenu(){
+    menuOverlay.style.opacity = "1"; menuOverlay.style.pointerEvents = "auto";
+    menuPanel.style.transform = "translateY(0)";
+    setTimeout(()=>{ menuPanel.style.transform = "none"; }, 320);
+  }
+  function closeMenu(){
+    menuOverlay.style.opacity = "0"; menuOverlay.style.pointerEvents = "none";
+    menuPanel.style.transform = "translateY(105%)";
+  }
   document.getElementById("menuBtn").addEventListener("click", openMenu);
   menuOverlay.addEventListener("click", closeMenu);
 
